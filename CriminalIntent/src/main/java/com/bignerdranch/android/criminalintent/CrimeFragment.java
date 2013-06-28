@@ -51,6 +51,7 @@ public class CrimeFragment extends Fragment {
         });
 
         mDateButton = (Button)v.findViewById(R.id.crime_date);
+        // TODO Challenge: use DateFormat to format the date in the button
         mDateButton.setText(mCrime.getDate().toString());
         mDateButton.setEnabled(false);
 
