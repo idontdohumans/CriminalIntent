@@ -4,7 +4,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <string name="action_settings">Settings</string>
+    <item name="viewPager" type="id"/>
+
     <string name="app_name">CriminalIntent</string>
     <string name="crime_details_label">Details</string>
     <string name="crime_solved_label">Solved?</string>
