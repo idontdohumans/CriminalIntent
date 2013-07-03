@@ -17,6 +17,12 @@ import java.util.GregorianCalendar;
 /**
  * Created by panda on 7/2/13.
  */
+/* TODO create new dialogFragment "TimePickerFragment" that allows user to select
+the time of day for the crime. Add second button for time to CrimeFragment*/
+
+// TODO have single button display choice to either edit date or time.
+
+
 public class DatePickerFragment extends DialogFragment {
     public static final String EXTRA_DATE =
             "com.bignerdranch.android.criminalintent.date";
