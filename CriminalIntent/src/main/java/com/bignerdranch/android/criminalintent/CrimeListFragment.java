@@ -73,8 +73,13 @@ public class CrimeListFragment extends ListFragment {
                 startActivityForResult(i, 0);
                 return true;
             case R.id.menu_item_show_subtitle:
-                getActivity().getActionBar().setSubtitle(R.string.subtitle);
-                return true;
+                if (getActivity().getActionBar().setSubtitle() == null) {
+                    getActivity().getActionBar().setSubtitle(R.string.subtitle);
+                    return true;
+                } else {
+                    getActivity().getActionBar().setSubtitle(null);
+                    item.setTitle(R.string.show_subtitle);
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
