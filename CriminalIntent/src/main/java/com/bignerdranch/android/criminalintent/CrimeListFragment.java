@@ -2,9 +2,11 @@ package com.bignerdranch.android.criminalintent;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,12 +24,15 @@ import java.util.ArrayList;
  */
 public class CrimeListFragment extends ListFragment {
     private ArrayList<Crime> mCrimes;
+    private boolean mSubtitleVisible;
     private static final String TAG = "CrimeListFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
+        mSubtitleVisible = false;
         getActivity().setTitle(R.string.crimes_title);
         mCrimes = CrimeLab.get(getActivity()).getCrimes();
 
@@ -38,6 +43,21 @@ public class CrimeListFragment extends ListFragment {
         // This line replaces everything above thanks to inner class CrimeAdapter
         CrimeAdapter adapter = new CrimeAdapter(mCrimes);
         setListAdapter(adapter);
+    }
+
+    @TargetApi(11)
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
+                             Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, parent, savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            if (mSubtitleVisible) {
+                getActivity().getActionBar().setSubtitle(R.string.subtitle);
+            }
+        }
+
+        return v;
     }
 
     @Override
@@ -59,6 +79,10 @@ public class CrimeListFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_crime_list, menu);
+        MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
+        if (mSubtitleVisible && showSubtitle != null) {
+            showSubtitle.setTitle(R.string.hide_subtitle);
+        }
     }
 
     @TargetApi(11)
@@ -75,11 +99,14 @@ public class CrimeListFragment extends ListFragment {
             case R.id.menu_item_show_subtitle:
                 if (getActivity().getActionBar().setSubtitle() == null) {
                     getActivity().getActionBar().setSubtitle(R.string.subtitle);
-                    return true;
+                    mSubtitleVisible = true;
+                    item.setTitle(R.string.hide_subtitle);
                 } else {
                     getActivity().getActionBar().setSubtitle(null);
+                    mSubtitleVisible = false;
                     item.setTitle(R.string.show_subtitle);
                 }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
