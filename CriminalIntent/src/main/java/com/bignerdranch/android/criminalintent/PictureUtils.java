@@ -3,7 +3,9 @@ package com.bignerdranch.android.criminalintent;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.view.Display;
 import android.widget.ImageView;
 
@@ -18,8 +20,21 @@ public class PictureUtils {
     @SuppressWarnings("deprecated")
     public static BitmapDrawable getScaledDrawable(Activity a, String path) {
         Display display = a.getWindowManager().getDefaultDisplay();
-        float destWidth = display.getWidth();
-        float destHeight = display.getHeight();
+        // modifying code from book to remove deprecated methods on newer devices
+//        float destWidth = display.getWidth();
+//        float destHeight = display.getHeight();
+        float destWidth;
+        float destHeight;
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Point size = new Point();
+            display.getSize(size);
+            destWidth  = size.x;
+            destHeight = size.y;
+        } else {
+            destWidth  = display.getWidth();
+            destHeight = display.getHeight();
+        }
 
         // Read in the dimensions of the image on disk
         BitmapFactory.Options options = new BitmapFactory.Options();
