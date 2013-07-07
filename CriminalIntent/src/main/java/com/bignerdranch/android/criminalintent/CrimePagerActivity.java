@@ -13,9 +13,15 @@ import java.util.UUID;
 /**
  * Created by panda on 7/2/13.
  */
-public class CrimePagerActivity extends FragmentActivity {
+public class CrimePagerActivity extends FragmentActivity
+                                implements CrimeFragment.Callbacks {
     private ViewPager mViewPager;
     private ArrayList<Crime> mCrimes;
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
